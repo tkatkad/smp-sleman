@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kalkulator Simulasi Nilai Gabungan SPMB 2026 SMP Negeri di Sleman</title>
+	<link rel="stylesheet" href="sleman.css">
+</head>
+<body>
+
+  <header>
+		<div id="nav-container"></div>
+		<script>
+			fetch('nav.js')
+				.then(res => res.text())
+				.then(data => {
+					document.getElementById('nav-container').innerHTML = data;
+				});
+		</script>
+  </header>
+
+  <!-- ========================================
+       HTML - MAIN CONTENT
+       ======================================== -->
+  <main>
+    <h1>Kalkulator Simulasi Hitung Nilai Gabungan - SPMB 2026 SMP Negeri di Kabupaten Sleman</h1>
+    <h2>Untuk Jalur Domisili Wilayah</h2>
+    <h2>dan Jalur Prestasi</h2>
+    <br><br>
+    <p>
+      <strong>Petunjuk:</strong> Isi nilai rapor & TKA/D untuk 3 MatPel: IPA/IPAS, Bahasa Indonesia, dan Matematika. 
+      Jika ikut Jalur Prestasi Sleman, masukkan juga nilai prestasi dari Disdik Sleman. 
+      Jika ikut Jalur Domisili Wilayah, tidak perlu mengisi data nilai prestasi.
+    </p>
+
+    <!-- Dynamic Form Container -->
+    <div id="form"></div>
+
+    <!-- Prestasi Input -->
+    <br><br>
+    <label><b>Tambahan Nilai Prestasi</b></label>
+    <label><b>(kalau punya)</b></label>
+    <div class="input-group">
+      <input type="range" min="0" max="15" step="0.01" id="prestasi-range">
+      <input type="number" min="0" max="15" step="0.01" id="prestasi" value="0">
+    </div>
+
+    <!-- Optimisme Slider -->
+    <br>
+    <label><b>Apa kamu yakin nilaimu mampu bersaing di sekolah yang kamu minati?</b></label>
+    <div class="input-group">
+      <input type="range" min="8" max="14" step="1" id="optimisme-range" value="14" style="direction: rtl;">
+      <input type="number" min="8" max="14" step="1" id="optimisme" value="14" hidden>
+    </div>
+    <div id="optimisme-label" style="text-align:center; font-weight:bold; margin-top:6px;"></div>
+
+    <!-- Optimisme Scale Visual -->
+    <div style="display:flex; justify-content:space-between; font-size:14px; margin-top:6px;">
+      <span>😭</span><span>&nbsp;</span><span>&nbsp;</span>
+      <span>😐</span><span>&nbsp;</span><span>&nbsp;</span>
+      <span>😆</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:#555;">
+      <span>Sangat Tidak Yakin</span><span>.</span><span>.</span>
+      <span>Lumayan</span><span>.</span><span>.</span>
+      <span>Sangat Yakin</span>
+    </div>
+
+    <!-- Debug Toggle -->
+    <br><br>
+    <label>
+      <input type="checkbox" id="debug-toggle">
+    </label>
+
+    <!-- Action Buttons -->
+    <br><br><br><br><br>
+    <button id="btn-hitung" onclick="handleSubmit()">Hitung</button>
+    <button onclick="resetForm()">Kosongkan</button>
+
+    <!-- Output Result -->
+    <div class="result" id="output" tabindex="-1"></div>
+  </main>
+
+  <!-- ========================================
+       JAVASCRIPT - Diurutkan: Config → Utils → Logic → UI → Events → Init
+       ======================================== -->
+<script src="sleman.js"></script>
+
+  <!-- ========================================
+       HTML - FOOTER & CONTACT
+       ======================================== -->
+  <br><br>
+  <button type="button" class="secondary" onclick="resetForm()">Bersihkan Form</button>
+  <a href="https://wa.me/628112500028?text=Halo%20saya%20mau%20tanya%20soal%20SPMB" target="_blank">
+    <button type="button" class="secondary">Hotline SPMB Sleman via WhatsApp</button>
+  </a>
+  <br><br>
+  Hotline Sleman via email : disdik.pendidikan.sleman@gmail.com
+
+</body>
+</html>
