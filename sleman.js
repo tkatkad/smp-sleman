@@ -373,7 +373,7 @@
       let val = parseInt(document.getElementById("optimisme-range").value);
       if (isNaN(val)) val = 10;
       if (val < 8) val = 8;
-      if (val > 14) val = 14;
+      if (val > 14) val = 12;
       const lbl = document.getElementById("optimisme-label");
       if (lbl) lbl.textContent = OPTIMISME_LABEL[val] || "😐 Lumayan Yakin";
     }
