@@ -1,0 +1,229 @@
+    /* ========== RESET & GLOBAL ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      background: #fdfdfd;
+      color: #111;
+      padding: 1rem;
+      margin: 0 auto;
+      max-width: 480px;
+    }
+
+    /* ========== TYPOGRAPHY ========== */
+    h1, h2 {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #004085;
+    }
+	
+	h3, h4, h5, h6 {
+      text-align: left;
+      margin-top: 1.5rem;
+      color: #004085;
+    }
+
+    h1 { font-size: 22px; }
+    h2 { font-size: 20px; }
+    h3 { font-size: 19px; }
+    h4 { font-size: 18px; }
+    h5 { font-size: 17px; margin: 0.5rem 0; }
+	h5 { font-size: 14px; margin: 0.5rem 0; }
+
+    p { margin: 0.5rem 0; }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    /* ========== HEADER & NAVIGATION ========== */
+    header {
+      background: #66004b;
+      color: white;
+      padding: 10px 20px;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .logo {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    nav .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 4px 10px;
+      display: block;
+    }
+
+    nav ul li a:hover {
+      background: #006699;
+      border-radius: 4px;
+    }
+
+    /* Responsive Navigation */
+    @media (max-width: 9768px) {
+      nav .menu-toggle { display: block; }
+      nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #004466;
+      }
+      nav ul.show { display: flex; }
+      nav ul li { width: 100%; text-align: left; }
+    }
+
+    #nav-links { display: none; }
+    #nav-links.show { display: block; }
+
+    /* ========== FORM & INPUTS ========== */
+    .input-group { margin: 8px 0; }
+
+    input[type="number"],
+    input[type="range"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 20px;
+      margin: 4px 0;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      background-color: #fff;
+    }
+
+    input[type="number"]:focus {
+      border-color: #007bff;
+      outline: none;
+      background-color: #f0f8ff;
+    }
+
+    /* Custom Range Slider Styling */
+    input[type="range"] {
+      height: 8px;
+      border-radius: 5px;
+      appearance: none;
+      background: #ddd;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #333;
+      cursor: pointer;
+    }
+
+    /* Checkbox styling */
+    input[type="checkbox"] {
+      width: auto;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    /* ========== BUTTONS ========== */
+    button {
+      font-size: 20px;
+      padding: 14px 24px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      background: #4CAF50;
+      color: white;
+      transition: background 0.2s ease;
+    }
+
+    button:hover { background-color: #0056b3; }
+    button:active { background: #388E3C; }
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    button.secondary {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    button.secondary:active { background-color: #aaa; }
+
+    /* ========== SECTIONS & RESULT ========== */
+    .section {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .result {
+      margin-top: 2rem;
+      padding: 1rem;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 10px;
+      background-color: #e9f7ff;
+      border: 2px solid #efefef;
+      min-height: 100px;
+    }
+
+    /* ========== ANIMATIONS & UTILITIES ========== */
+    .flash { animation: flashHighlight 1s ease-in-out; }
+
+    @keyframes flashHighlight {
+      0% { background-color: #fff3cd; }
+      50% { background-color: #ffeeba; }
+      100% { background-color: transparent; }
+    }
+
+    .highlight { animation: flash 1s ease; }
+
+    @keyframes flash {
+      0% { background-color: #ffffcc; }
+      100% { background-color: transparent; }
+    }
+
+    /* Focus utility for output */
+    #output:focus {
+      outline: 2px solid #007bff;
+    }
+
+    /* Helper text styling */
+    .helper-text {
+      font-size: 14px;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    /* ========== CSS OVERRIDE (placed last per cascade rule) ========== */
+    /* Jika ada style yang perlu menimpa sebelumnya, taruh di sini */
