@@ -126,19 +126,45 @@
       const total = sorted.length;
       return sorted.map((s, i) => {
         const rankRatio = i / (total - 1);
+        // Faktor untuk sekolah atas (rankRatio rendah) lebih dekat ke 1.0
+        // Faktor untuk sekolah bawah (rankRatio tinggi) lebih kecil
         const factor = 1.014 - (0.14 * Math.pow(rankRatio, 1.5));
         const competitionBoost = 1 + (0.03 * (1 - rankRatio));
+        
+        // POLARISASI: Pengurang menggunakan kuadrat rankRatio
+        // - Sekolah atas (rankRatio ~0): pengurang hampir 0
+        // - Sekolah bawah (rankRatio ~1): pengurang maksimal ~25
+        const penurunanKondisional = Math.pow(rankRatio, 2) * 25;
+        
         const convert = val =>
-          val === null ? null : (val * factor * competitionBoost) - (20 + 10 * rankRatio);
-        return { ...s, d: convert(s.d), p: convert(s.p), rankRatio };
+          val === null ? null : (val * factor * competitionBoost) - penurunanKondisional;
+        
+        // SOLUSI: Jangan timpa s.d dan s.p asli
+        // Simpan hasil transformasi ke properti baru untuk proyeksi 2026
+        return { 
+          ...s, 
+          d: s.d,                  // Tetap pertahankan passing grade asli
+          p: s.p,                  // Tetap pertahankan nilai tertinggi asli
+          projectedD: convert(s.d), // Proyeksi PG 2026
+          projectedP: convert(s.p), // Proyeksi Nilai Tertinggi 2026
+          rankRatio 
+        };
       });
     }
 
     function evaluateSekolah(data, nilaiDasar, totalPrestasi, PERFECT_MARGIN) {
       return data.map(s => {
+        // Sigma lebih sensitif untuk sekolah atas (polarisasi nilai tinggi)
+        // Sigma lebih longgar untuk sekolah bawah (polarisasi nilai rendah)
         const sigma = 10 + (15 * s.rankRatio);
-        const marginD = s.d !== null ? nilaiDasar - s.d : null;
-        const marginP = s.p !== null ? totalPrestasi - s.p : null;
+        
+        // Gunakan projectedD/projectedP untuk perbandingan (proyeksi 2026)
+        // Jika projectedD null, fallback ke d asli
+        const targetD = s.projectedD !== null ? s.projectedD : s.d;
+        const targetP = s.projectedP !== null ? s.projectedP : s.p;
+        
+        const marginD = targetD !== null ? nilaiDasar - targetD : null;
+        const marginP = targetP !== null ? totalPrestasi - targetP : null;
         let probD = 0;
         let probP = 0;
 
@@ -148,7 +174,7 @@
             : probability(Math.min(marginD, 25), sigma);
         }
 
-        if (s.p !== null && totalPrestasi >= RULE.minPrestasi) {
+        if (targetP !== null && totalPrestasi >= RULE.minPrestasi) {
           probP = marginP >= PERFECT_MARGIN
             ? 1
             : probability(Math.min(marginP, 25), sigma);
@@ -156,8 +182,10 @@
 
         return {
           nama: s.s,
-          d: s.d,
-          p: s.p,
+          d: s.d,                  // Passing grade asli (untuk referensi)
+          p: s.p,                  // Nilai tertinggi asli (untuk referensi)
+          projectedD: s.projectedD, // Proyeksi 2026
+          projectedP: s.projectedP, // Proyeksi 2026
           probD,
           probP,
           labelD: label(probD),
@@ -270,6 +298,8 @@
           html += `
             <h5>
               ${s.nama}<br>
+              ‣ PG Asli (d): ${s.d?.toFixed(2)}<br>
+              ‣ PG Proyeksi 2026: ${s.projectedD?.toFixed(2)}<br>
               ‣ probD: ${(s.probD * 100).toFixed(2)}%<br>
               ‣ marginD: ${s.marginD?.toFixed(2)}<br>
               ‣ sigma: ${s.sigma?.toFixed(2)}<br>
@@ -287,6 +317,8 @@
           html += `
             <h5>
               ${s.nama}<br>
+              ‣ PG Asli (p): ${s.p?.toFixed(2)}<br>
+              ‣ PG Proyeksi 2026: ${s.projectedP?.toFixed(2)}<br>
               ‣ probP: ${(s.probP * 100).toFixed(2)}%<br>
               ‣ marginP: ${s.marginP?.toFixed(2)}<br>
               ‣ sigma: ${s.sigma?.toFixed(2)}<br>
