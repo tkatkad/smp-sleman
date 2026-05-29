@@ -158,10 +158,10 @@
         // Sigma lebih longgar untuk sekolah bawah (polarisasi nilai rendah)
         const sigma = 10 + (15 * s.rankRatio);
         
-        // Gunakan projectedD/projectedP untuk perbandingan (proyeksi 2026)
-        // Jika projectedD null, fallback ke d asli
-        const targetD = s.projectedD !== null ? s.projectedD : s.d;
-        const targetP = s.projectedP !== null ? s.projectedP : s.p;
+        // PERBAIKAN KRITIS: Gunakan d dan p ASLI untuk perbandingan margin
+        // projectedD/projectedP hanya untuk referensi tren, bukan kalkulasi
+        const targetD = s.d;
+        const targetP = s.p;
         
         const marginD = targetD !== null ? nilaiDasar - targetD : null;
         const marginP = targetP !== null ? totalPrestasi - targetP : null;
@@ -182,10 +182,10 @@
 
         return {
           nama: s.s,
-          d: s.d,                  // Passing grade asli (untuk referensi)
-          p: s.p,                  // Nilai tertinggi asli (untuk referensi)
-          projectedD: s.projectedD, // Proyeksi 2026
-          projectedP: s.projectedP, // Proyeksi 2026
+          d: s.d,                  // Passing grade asli (untuk referensi & kalkulasi)
+          p: s.p,                  // Nilai tertinggi asli (untuk referensi & kalkulasi)
+          projectedD: s.projectedD, // Proyeksi 2026 (hanya referensi tren)
+          projectedP: s.projectedP, // Proyeksi 2026 (hanya referensi tren)
           probD,
           probP,
           labelD: label(probD),
